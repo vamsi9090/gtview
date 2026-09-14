@@ -3,7 +3,7 @@
 A responsive phone-installation guide walking a driver through **Position → Secure → Align → Power**. It includes an interactive mount demo, local progress tracking, manual diagnostics, local photo capture, troubleshooting help, and downloadable support drafts.
 
 **Source code:** https://github.com/vamsi9090/gtview
-**Live site:** _not deployed yet — see [Deploying a public link](#deploying-a-public-link) below_
+**Live site:** https://gtview.prudhvi-gelli0.chatgpt.site _(preview link — see the note in [Deploying a public link](#deploying-a-public-link) for a permanent alternative)_
 
 ## Tech stack
 
@@ -73,9 +73,9 @@ This app needs a host that can run a **Cloudflare Worker** (it uses server rende
 5. Deploy. Cloudflare gives you a public URL like `https://gtview.<your-subdomain>.workers.dev`.
 6. Every future `git push` to `main` will automatically redeploy that URL.
 
-Once deployed, put the real URL at the top of this README under **Live site**.
+Once deployed, replace the preview URL at the top of this README under **Live site** with the permanent `*.workers.dev` (or custom domain) link.
 
-> Note: a link like `*.chatgpt.site` from an AI website builder is a temporary preview tied to that tool's session — it isn't a durable public deployment and shouldn't be relied on as the project's real hosted link.
+> Note: the current **Live site** link (`*.chatgpt.site`) is a preview from an AI website builder, tied to that tool's own session. It works today but isn't guaranteed to stay up — treat it as temporary until the Cloudflare deployment above replaces it.
 
 ### Why GitHub Pages won't work
 
