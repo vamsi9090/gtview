@@ -3,6 +3,7 @@ import {useEffect,useState} from 'react';
 import {ArrowRight,Check,ChevronLeft,Save,Smartphone,ShieldCheck} from 'lucide-react';
 import {useRouter} from 'next/navigation';
 import {usePortal} from './provider';
+import {withBasePath} from '@/lib/gtview/base-path';
 import {Guided,CheckRow,Notice,HelpLink} from './ui';
 import {MountLab} from './mount-lab';
 import {isPreparationReady,isKitReady} from '@/lib/gtview/state';
@@ -24,7 +25,7 @@ export default function Install(){
  return <Guided phase={2} title="Four simple steps to road-ready." description="Your phone is the road-facing device. Follow along while safely parked." eyebrow="The phone installation guide">
  <div className="phone-install">
  <nav className="phone-stages" aria-label="Installation stages">{stages.map((s,i)=><button key={s.short} onClick={()=>go(i)} aria-current={stage===i?'step':undefined} className={stage===i?'active':''}><span>{state.checks['phone-stage-'+i]?<Check size={18}/>:i+1}</span><strong>{s.short}</strong><small>{state.checks['phone-stage-'+i]?'Confirmed':stage===i?'You are here':'View step'}</small></button>)}</nav>
- <div className="phone-stage-body"><figure className="phone-photo"><img src="/assets/phone-dashboard.webp" width="1200" height="800" alt="Concept photograph of hands placing a phone in a dashboard holder, with the road visible ahead."/><figcaption><Smartphone size={16}/> Supplied phone + dashboard holder <span>Concept placement</span></figcaption></figure><section className="phone-instruction" aria-live="polite"><p className="eyebrow">STEP 0{stage+1} / 04</p><h2>{current.title}</h2><p>{current.description}</p><ol>{current.steps.map((step,i)=><li key={step}><span>{i+1}</span>{step}</li>)}</ol><HelpLink/></section></div>
+ <div className="phone-stage-body"><figure className="phone-photo"><img src={withBasePath("/assets/phone-dashboard.webp")} width="1200" height="800" alt="Concept photograph of hands placing a phone in a dashboard holder, with the road visible ahead."/><figcaption><Smartphone size={16}/> Supplied phone + dashboard holder <span>Concept placement</span></figcaption></figure><section className="phone-instruction" aria-live="polite"><p className="eyebrow">STEP 0{stage+1} / 04</p><h2>{current.title}</h2><p>{current.description}</p><ol>{current.steps.map((step,i)=><li key={step}><span>{i+1}</span>{step}</li>)}</ol><HelpLink/></section></div>
  <details className="phone-detail" open={stage===2}><summary>What does a good road view look like?</summary><MountLab/></details>
  <Notice><ShieldCheck size={16}/> Exact placement, attachment, waiting time and angle limits come from your approved kit. The illustration and practice view do not verify your installation.</Notice>
  {!prerequisites&&<Notice tone="warning">You can explore all four steps. <a href="/before-you-start">Complete preparation</a> and <a href="/unbox">check your kit</a> before confirming them.</Notice>}

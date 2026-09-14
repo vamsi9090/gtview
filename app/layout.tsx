@@ -1,3 +1,3 @@
-import type {Metadata} from 'next';import './globals.css';import './phone-guide.css';import{Provider}from'@/components/gtview/provider';import{Shell}from'@/components/gtview/shell';
-export const metadata:Metadata={title:{default:'GTview · Your road to better maps',template:'%s · GTview'},description:'An independent GTview onboarding concept with guided installation, local progress, alignment comparison, and support preparation.',icons:{icon:'/favicon.svg'}};
+import type {Metadata} from 'next';import './globals.css';import './phone-guide.css';import{Provider}from'@/components/gtview/provider';import{Shell}from'@/components/gtview/shell';import{withBasePath}from'@/lib/gtview/base-path';
+export const metadata:Metadata={title:{default:'GTview · Your road to better maps',template:'%s · GTview'},description:'An independent GTview onboarding concept with guided installation, local progress, alignment comparison, and support preparation.',icons:{icon:withBasePath('/favicon.svg')}};
 export default function RootLayout({children}:{children:React.ReactNode}){return <html lang="en"><body><Provider><Shell>{children}</Shell></Provider></body></html>}

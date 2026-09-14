@@ -10,7 +10,8 @@
     "build": "vinext build",
     "start": "vinext start",
     "typecheck": "tsc --noEmit -p tsconfig.app.json",
-    "test": "npm run build && node --test tests/gtview-state.test.mjs tests/rendered-html.test.mjs"
+    "test": "npm run build && node --test tests/gtview-state.test.mjs tests/rendered-html.test.mjs",
+    "build:pages": "node scripts/build-static.mjs"
   },
   "dependencies": {
     "@base-ui/react": "^1.7.0",
