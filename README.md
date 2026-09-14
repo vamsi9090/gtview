@@ -1,51 +1,57 @@
 # GTview — Driver Setup Portal
 
-A responsive phone-installation guide: **Position → Secure → Align → Power**. Includes interactive mount examples, local progress, manual diagnostics, local photos, troubleshooting, and downloadable support drafts.
+A responsive phone-installation guide walking a driver through **Position → Secure → Align → Power**. It includes an interactive mount demo, local progress tracking, manual diagnostics, local photo capture, troubleshooting help, and downloadable support drafts.
 
-## Quick start
+**Source code:** https://github.com/vamsi9090/gtview
+**Live site:** _not deployed yet — see [Deploying a public link](#deploying-a-public-link) below_
 
-Install Node.js 24 LTS and npm. Extract the ZIP and open a terminal inside `gtview`:
+## Tech stack
+
+React 19, TypeScript, [Vinext](https://www.npmjs.com/package/vinext) (Next.js App Router conventions on top of Vite), Tailwind CSS 4, Radix/Shadcn UI, and Zod. The app builds to a **Cloudflare Worker**, not static HTML — see [Why GitHub Pages won't work](#why-github-pages-wont-work).
+
+## Quick start (run it locally)
+
+Install Node.js 22+ and npm, then from the repo root:
 
 ```sh
 npm ci
 npm run dev
 ```
 
-Open the local URL printed in the terminal. No API keys or database account are required for the current checklist features.
+Open the local URL printed in the terminal. No API keys or database are required for the current checklist features.
+
+To build and run a production build locally:
 
 ```sh
 npm run build
 npm start
 ```
 
-Stack: React 19, TypeScript, Vinext, Vite, Tailwind CSS 4, Radix/Shadcn, and Zod. The app uses Next.js App Router conventions through Vinext and builds a Cloudflare-compatible Worker. This is not a static HTML project or a standard Next.js deployment.
-
 ## Project structure
 
 | Location | Purpose |
 | --- | --- |
-| `app/` | Fourteen routes, metadata, global styles |
+| `app/` | Routes, metadata, global styles |
 | `components/gtview/` | Homepage, four-step guide, mount demo, review, support |
 | `components/ui/` | Reusable UI primitives |
 | `lib/gtview/` | Content, completion rules, browser photos, disabled analytics |
 | `public/assets/` | WebP photographs and concept assets |
 | `tests/` | Progress and server-render checks |
 | `docs/` | Product notes, approval checklist, validation notes |
-| `worker/` | Cloudflare server entrypoint |
+| `worker/` | Cloudflare Worker entrypoint |
 | `build/` | Build metadata helper |
-| `db/`, `drizzle/` | Optional database scaffolding, unused by current guide |
-| `vite.config.ts` | Build and development configuration |
-| `.openai/hosting.json` | Unbound configuration; original hosting ID removed |
+| `db/`, `drizzle/` | Optional database scaffolding, unused by the current guide |
+| `vite.config.ts` | Build/dev configuration (includes inline Cloudflare Worker bindings) |
 
 ## Customize
 
 - Branding/navigation: `components/gtview/shell.tsx`
 - Homepage: `components/gtview/home.tsx`
-- Installation: `components/gtview/install.tsx`
-- Interactive examples: `components/gtview/mount-lab.tsx`
-- Instructions, FAQs, placeholders: `lib/gtview/content.ts`
+- Installation flow: `components/gtview/install.tsx`
+- Interactive mount demo: `components/gtview/mount-lab.tsx`
+- Copy, FAQs, placeholders: `lib/gtview/content.ts`
 - Colors/layout: `app/globals.css` and `app/phone-guide.css`
-- Browser title/description: `app/layout.tsx`
+- Page title/description: `app/layout.tsx`
 
 ## Validate
 
@@ -54,39 +60,33 @@ npm run typecheck
 npm test
 ```
 
-Tests build the project, check progress rules, and render all fourteen routes. They do not test a physical device or simulate browser interactions.
+Tests build the project, check progress rules, and render every route. They do not test a physical device or simulate real browser interactions.
 
-## Publish the source on GitHub
+## Deploying a public link
 
-Sign in as `vamsi9090`, create an empty **public** repository named `gtview`, and leave automatic README/license creation unchecked. Then run inside this folder:
+This app needs a host that can run a **Cloudflare Worker** (it uses server rendering, not a static export), so it can't be hosted on plain GitHub Pages. The easiest free option, since Wrangler is already a dependency:
 
-```sh
-git init
-git add .
-git commit -m "Initial GTview driver setup portal"
-git branch -M main
-git remote add origin https://github.com/vamsi9090/gtview.git
-git push -u origin main
-```
+1. Sign in (or sign up) at [dash.cloudflare.com](https://dash.cloudflare.com) — free tier is enough.
+2. Go to **Workers & Pages → Create → Import a Git repository**.
+3. Connect your GitHub account and select `vamsi9090/gtview`.
+4. Use build command `npm run build` and leave the output settings as detected — Cloudflare's Vite integration reads the Worker config directly from `vite.config.ts`.
+5. Deploy. Cloudflare gives you a public URL like `https://gtview.<your-subdomain>.workers.dev`.
+6. Every future `git push` to `main` will automatically redeploy that URL.
 
-Authenticate through your Git client when prompted. No credentials or Git history are included. Making the repository public does not deploy the website.
+Once deployed, put the real URL at the top of this README under **Live site**.
 
-## Website hosting
+> Note: a link like `*.chatgpt.site` from an AI website builder is a temporary preview tied to that tool's session — it isn't a durable public deployment and shouldn't be relied on as the project's real hosted link.
 
-Use a host supporting Vinext and Cloudflare Worker output. Configure your own account/project, server entrypoint, and generated client assets. The server output is `dist/server/index.js`. GitHub Pages cannot directly run this Worker application. For Sites hosting, register this copy as a new project; its original project identity has been removed.
+### Why GitHub Pages won't work
+
+GitHub Pages only serves static files. This app's server output (`worker/index.ts`) needs to run as a Worker to handle routing, image optimization, and future data bindings — Pages has no runtime for that. Cloudflare Workers, which this project already targets, is the natural fit.
 
 ## Data and limitations
 
-Progress and support drafts use local storage; optional photos use IndexedDB. Data stays on that browser and is not synchronized. Clearing browser data removes records.
+Progress and support drafts use local storage; optional photos use IndexedDB. Data stays in that browser and is not synchronized, and clearing browser data removes it.
 
-The preview is illustrative. There is no actual camera access, calibration, activation, support submission, reward verification, or analytics transmission. Bracketed hardware instructions and contact information require approved program details. Images are concepts, not mounting specifications.
-
-This export uses GTview folder names and storage keys. Existing data from another domain or earlier naming is not migrated. Some historical documents describe earlier iterations; the four-step phone guide and current source take precedence.
+This is an illustrative preview: there is no real camera access, calibration, activation, support submission, reward verification, or analytics transmission. Bracketed hardware instructions and contact information require approved program details, and images are concept assets, not mounting specifications.
 
 ## License
 
-No project-wide open-source license has been selected. Public source visibility does not itself grant an open-source license. Choose one before inviting reuse and retain third-party notices in `vendor/` and dependencies.
-
-## Archive contents
-
-Source, assets, lockfile, documentation, and configuration are included. Dependencies, build output, credentials, Git history, and original hosting identity are excluded. Run `npm ci` after extraction.
+No project-wide open-source license has been selected yet. Public visibility on GitHub does not itself grant an open-source license — choose one (e.g. MIT) before inviting reuse, and keep the third-party notices in `vendor/` and in dependencies.
