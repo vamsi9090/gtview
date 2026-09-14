@@ -1,0 +1,1 @@
+import Link from'next/link';export default function NotFound(){return <main id="main" className="standard-main"><div className="page-heading"><h1>Let’s get you back on the route.</h1><p>This page isn’t part of the guide. Your saved setup remains on this browser.</p><Link className="btn primary" href="/">Return to GTview</Link></div></main>}
