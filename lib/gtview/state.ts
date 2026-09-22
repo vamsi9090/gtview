@@ -12,3 +12,7 @@ export function isConnectionReady(s:PortalState){return Array.from({length:7},(_
 export function isReviewReady(s:PortalState){return isPreparationReady(s)&&isKitReady(s)&&isInstallationReady(s)&&isAlignmentReady(s)&&isConnectionReady(s)&&!!s.checks.attestation}
 export function completedPhases(s:PortalState){return [isPreparationReady(s),isKitReady(s),isInstallationReady(s),isAlignmentReady(s),isConnectionReady(s),!!s.receipt&&isReviewReady(s)]}
 export function resumePath(s:PortalState){const allowed=['/before-you-start','/unbox','/install','/alignment-check','/connect-and-test','/review'];return allowed.includes(s.lastPath)?s.lastPath:'/before-you-start'}
+// Phase indices (matching `phases` in content.ts) that still block a final confirmation.
+export function reviewBlockers(s:PortalState){const r:number[]=[];if(!isPreparationReady(s))r.push(0);if(!isKitReady(s))r.push(1);if(!isInstallationReady(s))r.push(2);if(!isAlignmentReady(s))r.push(3);if(!isConnectionReady(s))r.push(4);return r}
+export function countChecks(s:PortalState,prefix:string,total:number){return Array.from({length:total},(_,i)=>s.checks[prefix+i]).filter(Boolean).length}
+export function countKit(s:PortalState){return ['device','mount','attachment','cable','clips','wipe','guide','card'].filter(x=>s.checks['kit-'+x]).length}
