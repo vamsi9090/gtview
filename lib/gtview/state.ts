@@ -8,9 +8,13 @@ export function isPreparationReady(s:PortalState){return s.invitation==='current
 export function isKitReady(s:PortalState){return ['device','mount','attachment','cable','clips','wipe','guide','card'].every(x=>s.checks['kit-'+x])}
 export function isInstallationReady(s:PortalState){return Array.from({length:4},(_,i)=>s.checks['phone-stage-'+i]).every(Boolean)}
 export function isAlignmentReady(s:PortalState){return s.alignment==='confirmed'&&Array.from({length:4},(_,i)=>s.checks['align-'+i]).every(Boolean)}
-export function isConnectionReady(s:PortalState){return Array.from({length:7},(_,i)=>s.diagnostics[i]==='confirmed').every(Boolean)}
+// Alignment is recorded once, on the Align phase, so Connect has six official checks.
+export const DIAGNOSTIC_COUNT=6;
+export function isConnectionReady(s:PortalState){return Array.from({length:DIAGNOSTIC_COUNT},(_,i)=>s.diagnostics[i]==='confirmed').every(Boolean)}
 export function isReviewReady(s:PortalState){return isPreparationReady(s)&&isKitReady(s)&&isInstallationReady(s)&&isAlignmentReady(s)&&isConnectionReady(s)&&!!s.checks.attestation}
-export function completedPhases(s:PortalState){return [isPreparationReady(s),isKitReady(s),isInstallationReady(s),isAlignmentReady(s),isConnectionReady(s),!!s.receipt&&isReviewReady(s)]}
+// A phase only shows as done when every earlier phase is done too, so the tracker never claims
+// later progress while an earlier phase is open. Answers are kept; only the display cascades.
+export function completedPhases(s:PortalState){const raw=[isPreparationReady(s),isKitReady(s),isInstallationReady(s),isAlignmentReady(s),isConnectionReady(s),!!s.receipt&&isReviewReady(s)];return raw.map((_,i)=>raw.slice(0,i+1).every(Boolean))}
 export function resumePath(s:PortalState){const allowed=['/before-you-start','/unbox','/install','/alignment-check','/connect-and-test','/review'];return allowed.includes(s.lastPath)?s.lastPath:'/before-you-start'}
 // Phase indices (matching `phases` in content.ts) that still block a final confirmation.
 export function reviewBlockers(s:PortalState){const r:number[]=[];if(!isPreparationReady(s))r.push(0);if(!isKitReady(s))r.push(1);if(!isInstallationReady(s))r.push(2);if(!isAlignmentReady(s))r.push(3);if(!isConnectionReady(s))r.push(4);return r}

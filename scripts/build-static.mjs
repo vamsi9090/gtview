@@ -16,7 +16,7 @@ import { fileURLToPath } from "node:url";
 
 const ROOT = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
 const OUT_DIR = path.join(ROOT, "gh-pages-dist");
-const BASE_PATH = "/gtview";
+const BASE_PATH = process.env.GH_PAGES_BASE_PATH || "/gtview";
 const PORT = 3000;
 const SERVER_ORIGIN = `http://127.0.0.1:${PORT}`;
 
@@ -106,7 +106,12 @@ async function main() {
     fs.cpSync(path.join(ROOT, "dist/client/assets"), path.join(OUT_DIR, "assets"), {
       recursive: true,
     });
-    fs.copyFileSync(path.join(ROOT, "dist/client/favicon.svg"), path.join(OUT_DIR, "favicon.svg"));
+    // Copy every top-level public file (favicon, social preview, touch icon).
+    // `_headers` is Cloudflare-only and has no meaning on GitHub Pages.
+    for (const entry of fs.readdirSync(path.join(ROOT, "dist/client"), { withFileTypes: true })) {
+      if (!entry.isFile() || entry.name === "_headers") continue;
+      fs.copyFileSync(path.join(ROOT, "dist/client", entry.name), path.join(OUT_DIR, entry.name));
+    }
 
     console.log("Fetching 404 page...");
     const notFoundRes = await fetch(`${SERVER_ORIGIN}${BASE_PATH}/this-route-does-not-exist`);
