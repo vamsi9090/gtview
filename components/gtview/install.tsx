@@ -1,6 +1,6 @@
-'use client';
+'use client';import Link from'next/link';
 import {useEffect,useState} from 'react';
-import {ArrowRight,Check,ChevronLeft,Save,Smartphone,ShieldCheck} from 'lucide-react';
+import {ArrowRight,Check,ChevronLeft,Save,Smartphone} from 'lucide-react';
 import {useRouter} from 'next/navigation';
 import {usePortal} from './provider';
 import {withBasePath} from '@/lib/gtview/base-path';
@@ -25,12 +25,12 @@ export default function Install(){
  return <Guided phase={2} title="Four simple steps to road-ready." description="Your phone is the road-facing device. Follow along while safely parked.">
  <div className="phone-install">
  <nav className="phone-stages" aria-label="Installation stages">{stages.map((s,i)=><button key={s.short} onClick={()=>go(i)} aria-current={stage===i?'step':undefined} className={stage===i?'active':''}><span>{state.checks['phone-stage-'+i]?<Check size={18}/>:i+1}</span><strong>{s.short}</strong><small>{state.checks['phone-stage-'+i]?'Confirmed':stage===i?'You are here':'View step'}</small></button>)}</nav>
- <div className="phone-stage-body"><figure className="phone-photo"><img src={withBasePath("/assets/gt-hero.webp")} width="2400" height="1600" alt="Illustration: a phone in landscape, mounted high on the windshield with a suction-cup mount, showing a live road view."/><figcaption><Smartphone size={16}/> Supplied phone + windshield mount <span>Concept illustration</span></figcaption></figure><section className="phone-instruction" aria-live="polite"><p className="eyebrow">STEP 0{stage+1} / 04</p><h2>{current.title}</h2><p>{current.description}</p><ol>{current.steps.map((step,i)=><li key={step}><span>{i+1}</span>{rich(step)}</li>)}</ol><HelpLink/></section></div>
+ <div className="phone-stage-body"><figure className="phone-photo"><img src={withBasePath("/assets/gt-hero.webp")} width="2400" height="1600" alt="Illustration: a phone in landscape, mounted high on the windshield with a suction-cup mount, showing a live road view."/><figcaption><Smartphone size={16}/> Supplied phone + windshield mount <span>Concept illustration</span></figcaption></figure><section className="phone-instruction" aria-live="polite"><h2>{current.title}</h2><p>{current.description}</p><ol>{current.steps.map((step,i)=><li key={step}><span>{i+1}</span>{rich(step)}</li>)}</ol><HelpLink/></section></div>
  <details className="phone-detail" open={stage===2}><summary>What does a good road view look like?</summary><MountLab/></details>
- <Notice><ShieldCheck size={16}/> Exact placement, attachment, waiting time and angle limits come from your approved kit. The illustration and practice view do not verify your installation.</Notice>
- {!prerequisites&&<Notice tone="warning">You can explore all four steps. <a href="/before-you-start">Complete preparation</a> and <a href="/unbox">check your kit</a> before confirming them.</Notice>}
+ <Notice>Exact placement and angle limits come from your kit. This illustration and the practice view can’t check your setup.</Notice>
+ 
  {Object.keys(state.checks).some(k=>k.startsWith('install-')&&state.checks[k])&&!state.checks['phone-stage-0']&&<Notice>The phone guide has changed. Review these four phone checks; your other saved progress is kept.</Notice>}
  <CheckRow label={current.confirm} checked={checked} disabled={!canConfirm} detail={!earlierDone?'Confirm the earlier phone steps first.':undefined} onChange={value=>{if(canConfirm)check('phone-stage-'+stage,value)}}/>
- <div className="phone-actions"><button className="back-link" onClick={()=>stage?go(stage-1):router.push('/unbox')}><ChevronLeft size={18}/>{stage?'Previous':'Your kit'}</button><button className="phone-save" onClick={save}><Save size={17}/>Save for later</button><button className="btn primary" disabled={!canConfirm||!checked} onClick={()=>stage<3?go(stage+1):router.push('/alignment-check')}>{stage<3?'Next: '+stages[stage+1].short:'Check road view'}<ArrowRight size={18}/></button></div><p className="phone-save-note">{saved?'Progress saved on this browser.':'Your progress saves on this browser when storage is available.'} Return to the same browser to continue.</p>
+ {(!canConfirm||!checked)&&<p className="gate-reason" id="install-gate" role="status">{!prerequisites?<>Locked: finish <Link href="/before-you-start">Prepare</Link> and <Link href="/unbox">Unbox</Link> first.</>:!earlierDone?'Confirm the earlier steps first.':'Tick the box above to continue.'}</p>}<div className="phone-actions"><button className="back-link" onClick={()=>stage?go(stage-1):router.push('/unbox')}><ChevronLeft size={18}/>{stage?'Back: '+stages[stage-1].short:'Back: Unbox'}</button><button className="phone-save" onClick={save}><Save size={17}/>Finish later</button><button className="btn primary" aria-describedby={!canConfirm||!checked?'install-gate':undefined} disabled={!canConfirm||!checked} onClick={()=>stage<3?go(stage+1):router.push('/alignment-check')}>{stage<3?'Next: '+stages[stage+1].short:'Check road view'}<ArrowRight size={18}/></button></div><p className="phone-save-note">Your progress saves automatically on this device.</p>
  </div></Guided>
 }

@@ -12,8 +12,8 @@ const steps=[
   {n:'02',title:'Unbox',line:'Lay out the kit and tick off each item.',href:'/unbox',Icon:Package},
   {n:'03',title:'Install',line:'Position, secure, aim and power the phone.',href:'/install',Icon:Smartphone},
   {n:'04',title:'Align',line:'Check the real road view is level and clear.',href:'/alignment-check',Icon:ScanLine},
-  {n:'05',title:'Connect',line:'Record what the official setup tool reports.',href:'/connect-and-test',Icon:Wifi},
-  {n:'06',title:'Confirm',line:'Review everything and save your local record.',href:'/review',Icon:BadgeCheck},
+  {n:'05',title:'Connect',line:'Run the official test and note each result.',href:'/connect-and-test',Icon:Wifi},
+  {n:'06',title:'Review',line:'Check everything once and save your confirmation.',href:'/review',Icon:BadgeCheck},
 ];
 
 const promises=[
@@ -29,7 +29,7 @@ export default function Home(){
     <section className="ax-hero" aria-labelledby="hero-title">
       <p className="ax-kicker">GTview Driver Setup</p>
       <h1 id="hero-title">A clear view.<br/>A confident <em>start.</em></h1>
-      <p className="ax-lede">You’re invited to help build better maps. Set up your phone in six short, guided phases.</p>
+      <p className="ax-lede">You’re invited to help map your city. Set up your phone in six short, guided phases.</p>
       <div className="ax-ctas">
         <Link className="btn pink" href={startHref} onClick={()=>patch({started:true})}>{ready&&state.started?'Continue my setup':'Let’s set up your phone'}<ArrowRight size={19}/></Link>
         <a className="ax-link" href="#how-it-works">See how it works<ChevronRight size={18}/></a>
@@ -47,7 +47,7 @@ export default function Home(){
         <p>Your progress saves as you go, so you can stop after any phase and pick up right where you left off.</p>
       </header>
       <div className="ax-bento">
-        {steps.map(({n,title,line,href,Icon})=><Link key={n} href={href} className="ax-tile">
+        {steps.map(({n,title,line,href,Icon})=><Link key={n} href={href} className="ax-tile" aria-label={'Phase '+n+', '+title+': '+line}>
           <Icon size={30} aria-hidden="true"/>
           <span className="ax-step">Phase {n}</span>
           <h3>{title}</h3>
