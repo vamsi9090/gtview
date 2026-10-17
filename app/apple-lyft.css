@@ -455,3 +455,12 @@ h1[tabindex="-1"]:focus,h1[tabindex="-1"]:focus-visible{outline:none!important}
 .ax-close>div:last-child{justify-items:center}
 .ax-close p:not(.eyebrow){margin-left:auto;margin-right:auto}
 .ax-close:before{inset:-55% auto auto 50%;translate:-50% 0;width:70%}
+
+/* Step cards: one hero image on the page, so steps are concise icon cards */
+.ax-bento{grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
+.ax-tile{padding:clamp(24px,2.4vw,32px);border-radius:28px}
+.ax-tile>svg:first-child{color:var(--lyft-pink);margin-bottom:22px}
+.ax-tile h3{font-size:clamp(1.5rem,2.2vw,1.875rem)}
+.ax-tile p{flex:1}
+@media (max-width:1000px){.ax-bento{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:560px){.ax-bento{grid-template-columns:1fr}}

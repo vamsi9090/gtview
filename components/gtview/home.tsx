@@ -1,16 +1,16 @@
 'use client';
 import Link from 'next/link';
-import {ArrowRight,ChevronRight,ShieldCheck,BookmarkCheck,LifeBuoy} from 'lucide-react';
+import {ArrowRight,ChevronRight,ShieldCheck,BookmarkCheck,LifeBuoy,Smartphone,LockKeyhole,ScanLine,Cable} from 'lucide-react';
 import {usePortal} from './provider';
 import {resumePath} from '@/lib/gtview/state';
 import {MountLab} from './mount-lab';
 import {withBasePath} from '@/lib/gtview/base-path';
 
 const steps=[
-  {n:'01',title:'Position',line:'Find the approved spot on the windshield.',img:'gt-position',alt:'Illustration: a suction-cup mount pressed against the inside of the windshield, with a pink target marking the approved spot.'},
-  {n:'02',title:'Secure',line:'Click the phone into its supplied mount.',img:'gt-secure',alt:'Illustration: the phone moving into the windshield mount, with pink marks showing the side clamps closing.'},
-  {n:'03',title:'Align',line:'Level the horizon. Centre the road.',img:'gt-align',alt:'Illustration: the phone screen showing the road with a pink level line across the horizon.'},
-  {n:'04',title:'Power',line:'Connect and tuck the cable away.',img:'gt-power',alt:'Illustration: the mounted phone with its cable tucked along the base of the windshield, held by two pink clips.'},
+  {n:'01',title:'Position',line:'Find the approved spot high on the windshield.',Icon:Smartphone},
+  {n:'02',title:'Secure',line:'Press the suction mount on and click the phone in.',Icon:LockKeyhole},
+  {n:'03',title:'Align',line:'Turn it landscape, level the horizon, centre the road.',Icon:ScanLine},
+  {n:'04',title:'Power',line:'Connect and tuck the cable away.',Icon:Cable},
 ];
 
 const promises=[
@@ -32,7 +32,7 @@ export default function Home(){
         <a className="ax-link" href="#how-it-works">See how it works<ChevronRight size={18}/></a>
       </div>
       <figure className="ax-hero-art">
-        <img src={withBasePath('/assets/gt-hero.webp')} width="2400" height="1600" fetchPriority="high" alt="Illustration: a phone mounted on the inside of a car windshield with a suction-cup mount, its screen showing a live view of the road ahead."/>
+        <img src={withBasePath('/assets/gt-hero.webp')} width="2400" height="1600" fetchPriority="high" alt="Illustration: a phone in landscape, mounted high on the inside of the windshield with a suction-cup mount, its screen showing a live road view with a REC indicator."/>
       </figure>
       <p className="ax-note"><ShieldCheck size={16} aria-hidden="true"/>Stay parked. Take your time. We’ll guide you.</p>
     </section>
@@ -44,14 +44,12 @@ export default function Home(){
         <p>Check your invitation and kit first. Then follow four focused steps before your final view and connection checks.</p>
       </header>
       <div className="ax-bento">
-        {steps.map((s,i)=><Link key={s.n} href={'/install?stage='+(i+1)} className="ax-tile">
-          <div className="ax-tile-copy">
-            <span className="ax-step">Step {s.n}</span>
-            <h3>{s.title}</h3>
-            <p>{s.line}</p>
-            <span className="ax-tile-link">View step<ChevronRight size={16}/></span>
-          </div>
-          <img src={withBasePath('/assets/'+s.img+'.webp')} width="2400" height="1600" loading="lazy" alt={s.alt}/>
+        {steps.map(({n,title,line,Icon},i)=><Link key={n} href={'/install?stage='+(i+1)} className="ax-tile">
+          <Icon size={30} aria-hidden="true"/>
+          <span className="ax-step">Step {n}</span>
+          <h3>{title}</h3>
+          <p>{line}</p>
+          <span className="ax-tile-link">View step<ChevronRight size={16}/></span>
         </Link>)}
       </div>
     </section>

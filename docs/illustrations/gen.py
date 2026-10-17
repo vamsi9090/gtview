@@ -294,3 +294,68 @@ if __name__ == "__main__":
     for name, fn in SCENES.items():
         (OUT / f"{name}.svg").write_text(fn(), encoding="utf-8")
         print("wrote", name)
+
+
+def scene_hero_landscape():
+    """Looking up and forward: landscape phone mounted high on the glass, frit band, headliner."""
+    cx, top, w, h = 600, 168, 440, 214
+    x = cx - w / 2
+    r = 26
+    bezel = 8
+    sx, sy, sw, sh = x + bezel, top + bezel, w - 2 * bezel, h - 2 * bezel
+    # Ceramic frit: dot matrix fading down from the top edge of the glass.
+    dots = []
+    for row in range(8):
+        y = 90 + row * 9.5
+        rad = 3.4 - row * 0.4
+        for col in range(0, 128):
+            dx = col * 9.5 + (4.75 if row % 2 else 0)
+            dots.append(f'<circle cx="{dx:.1f}" cy="{y}" r="{rad:.2f}" fill="#101016"/>')
+    frit = f'<g opacity=".92">{"".join(dots)}</g><path d="M0,0 H{W} V92 C930,74 270,74 0,92Z" fill="#101016"/>'
+    # Headliner fabric with a soft woven texture.
+    headliner = f"""
+    <path d="M0,0 H{W} V58 C930,36 270,36 0,58Z" fill="#2a2a31"/>
+    <path d="M0,0 H{W} V58 C930,36 270,36 0,58Z" fill="url(#weave)" opacity=".35"/>
+    <path d="M0,58 C270,36 930,36 {W},58" fill="none" stroke="#3a3a43" stroke-width="2"/>"""
+    rec = f"""
+      <rect x="{sx+16}" y="{sy+14}" width="74" height="28" rx="14" fill="#000" opacity=".5"/>
+      <circle cx="{sx+33}" cy="{sy+28}" r="5.5" fill="{PINK}"/>
+      <text x="{sx+45}" y="{sy+33.5}" font-family="-apple-system,Segoe UI,Inter,sans-serif" font-size="15" font-weight="700" fill="#fff" letter-spacing=".06em">REC</text>"""
+    clip_id = "scrLand"
+    phone_svg = f"""
+    <g>
+      <ellipse cx="{cx}" cy="{top-50}" rx="54" ry="18" fill="url(#cup)"/>
+      <ellipse cx="{cx}" cy="{top-53}" rx="41" ry="11" fill="#5a5a63" opacity=".55"/>
+      <path d="M{cx-10},{top-44} L{cx+10},{top-44} L{cx+14},{top+8} L{cx-14},{top+8}Z" fill="#26262d"/>
+      <circle cx="{cx}" cy="{top-14}" r="11" fill="#33333b"/>
+      <rect x="{x+26}" y="{top-10}" width="{w-52}" height="16" rx="8" fill="#22222a"/>
+      <rect x="{x+26}" y="{top+h-6}" width="{w-52}" height="16" rx="8" fill="#22222a"/>
+      <g filter="url(#soft)">
+        <rect x="{x}" y="{top}" width="{w}" height="{h}" rx="{r}" fill="url(#body)"/>
+        <rect x="{x+1.5}" y="{top+1.5}" width="{w-3}" height="{h-3}" rx="{r-1.5}" fill="none" stroke="#5a5a64" stroke-width="1.2" opacity=".7"/>
+      </g>
+      <clipPath id="{clip_id}"><rect x="{sx}" y="{sy}" width="{sw}" height="{sh}" rx="{r-7}"/></clipPath>
+      <g clip-path="url(#{clip_id})">
+        <svg x="{sx}" y="{sy}" width="{sw}" height="{sh}" viewBox="260 300 680 330" preserveAspectRatio="xMidYMid slice">{landscape(sharp=True)}</svg>
+        <rect x="{sx}" y="{sy}" width="{sw}" height="{sh}" fill="url(#glare)"/>
+        {rec}
+      </g>
+      <circle cx="{x+w-15}" cy="{top+h/2}" r="4.2" fill="#0b0b0f"/>
+    </g>"""
+    mirror = f"""
+    <g filter="url(#soft)">
+      <rect x="1100" y="0" width="18" height="150" rx="7" fill="#1b1b22"/>
+      <rect x="990" y="140" width="260" height="92" rx="28" fill="url(#mirror)"/>
+      <rect x="1004" y="152" width="236" height="68" rx="20" fill="url(#mirrorGlass)" opacity=".85"/>
+      <path d="M1010,162 L1084,162 L1060,210 L1010,210Z" fill="#fff" opacity=".07"/>
+    </g>"""
+    weave = """<pattern id="weave" width="6" height="6" patternUnits="userSpaceOnUse"><path d="M0,3 H6 M3,0 V6" stroke="#4a4a54" stroke-width=".6"/></pattern>"""
+    # Looking up: shift the world down so the frame is mostly sky, glass and phone.
+    world = f'<g transform="translate(0 120)">{landscape()}</g><rect width="{W}" height="122" fill="#cad6e1"/>'
+    pillars = f'<path d="M0,40 L58,52 L0,800Z" fill="#1a1a22"/><path d="M{W},40 L{W-58},52 L{W},800Z" fill="#1a1a22"/>'
+    glare = f'<rect width="{W}" height="{H}" fill="url(#glare)"/>'
+    content = world + glare + pillars + frit + headliner + mirror + phone_svg
+    return svg(content).replace("</defs>", weave + "</defs>", 1)
+
+
+SCENES["hero-landscape"] = scene_hero_landscape
