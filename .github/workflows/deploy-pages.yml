@@ -1,5 +1,8 @@
 name: Deploy to GitHub Pages
 
+# Publishes two versions side by side:
+#   /gtview/      -> the original site (main)
+#   /gtview/new/  -> the Apple x Lyft redesign (apple-lyft-redesign branch)
 on:
   push:
     branches: [main]
@@ -19,17 +22,49 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Check out original (main)
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          path: original
+      - name: Check out redesign
+        uses: actions/checkout@v4
+        with:
+          ref: apple-lyft-redesign
+          path: redesign
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
           cache: npm
-      - run: npm ci
-      - run: npm run build:pages
+          cache-dependency-path: |
+            original/package-lock.json
+            redesign/package-lock.json
+
+      - name: Build original at /gtview
+        working-directory: original
+        run: |
+          npm ci
+          npm run build:pages
+
+      - name: Build redesign at /gtview/new
+        working-directory: redesign
+        env:
+          GH_PAGES_BASE_PATH: /gtview/new
+        run: |
+          npm ci
+          npm run build:pages
+
+      - name: Combine both sites
+        run: |
+          mkdir -p site/new
+          cp -r original/gh-pages-dist/. site/
+          cp -r redesign/gh-pages-dist/. site/new/
+          touch site/.nojekyll
+
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: gh-pages-dist
+          path: site
 
   deploy:
     needs: build
