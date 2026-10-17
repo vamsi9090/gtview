@@ -1,16 +1,19 @@
 'use client';
 import Link from 'next/link';
-import {ArrowRight,ChevronRight,ShieldCheck,BookmarkCheck,LifeBuoy,Smartphone,LockKeyhole,ScanLine,Cable} from 'lucide-react';
+import {ArrowRight,ChevronRight,ShieldCheck,BookmarkCheck,LifeBuoy,ClipboardCheck,Package,Smartphone,ScanLine,Wifi,BadgeCheck} from 'lucide-react';
 import {usePortal} from './provider';
 import {resumePath} from '@/lib/gtview/state';
 import {MountLab} from './mount-lab';
 import {withBasePath} from '@/lib/gtview/base-path';
 
+// Mirrors the six phases in the guide's own progress tracker, so the promise matches the journey.
 const steps=[
-  {n:'01',title:'Position',line:'Find the approved spot high on the windshield.',Icon:Smartphone},
-  {n:'02',title:'Secure',line:'Press the suction mount on and click the phone in.',Icon:LockKeyhole},
-  {n:'03',title:'Align',line:'Turn it landscape, level the horizon, centre the road.',Icon:ScanLine},
-  {n:'04',title:'Power',line:'Connect and tuck the cable away.',Icon:Cable},
+  {n:'01',title:'Prepare',line:'Park safely and confirm your invitation and vehicle.',href:'/before-you-start',Icon:ClipboardCheck},
+  {n:'02',title:'Unbox',line:'Lay out the kit and tick off each item.',href:'/unbox',Icon:Package},
+  {n:'03',title:'Install',line:'Position, secure, aim and power the phone.',href:'/install',Icon:Smartphone},
+  {n:'04',title:'Align',line:'Check the real road view is level and clear.',href:'/alignment-check',Icon:ScanLine},
+  {n:'05',title:'Connect',line:'Record what the official setup tool reports.',href:'/connect-and-test',Icon:Wifi},
+  {n:'06',title:'Confirm',line:'Review everything and save your local record.',href:'/review',Icon:BadgeCheck},
 ];
 
 const promises=[
@@ -26,13 +29,13 @@ export default function Home(){
     <section className="ax-hero" aria-labelledby="hero-title">
       <p className="ax-kicker">GTview Driver Setup</p>
       <h1 id="hero-title">A clear view.<br/>A confident <em>start.</em></h1>
-      <p className="ax-lede">You’re invited to help build better maps. Set up your phone in four calm, guided steps.</p>
+      <p className="ax-lede">You’re invited to help build better maps. Set up your phone in six short, guided phases.</p>
       <div className="ax-ctas">
         <Link className="btn pink" href={startHref} onClick={()=>patch({started:true})}>{ready&&state.started?'Continue my setup':'Let’s set up your phone'}<ArrowRight size={19}/></Link>
         <a className="ax-link" href="#how-it-works">See how it works<ChevronRight size={18}/></a>
       </div>
       <figure className="ax-hero-art">
-        <img src={withBasePath('/assets/gt-hero.webp')} width="2400" height="1600" fetchPriority="high" alt="Illustration: a phone in landscape, mounted high on the inside of the windshield with a suction-cup mount, its screen showing a live road view with a REC indicator."/>
+        <img src={withBasePath('/assets/gt-hero-wide.webp')} width="2400" height="1120" fetchPriority="high" alt="Illustration: a phone in landscape, mounted high on the inside of the windshield with a suction-cup mount, its screen showing a live road view with a REC indicator."/>
       </figure>
       <p className="ax-note"><ShieldCheck size={16} aria-hidden="true"/>Stay parked. Take your time. We’ll guide you.</p>
     </section>
@@ -40,16 +43,16 @@ export default function Home(){
     <section id="how-it-works" className="ax-section" aria-labelledby="steps-title">
       <header className="ax-head">
         <p className="ax-kicker">Less guesswork. More confidence.</p>
-        <h2 id="steps-title">Four moves.<br/>One clear road view.</h2>
-        <p>Check your invitation and kit first. Then follow four focused steps before your final view and connection checks.</p>
+        <h2 id="steps-title">Six short phases.<br/>One clear road view.</h2>
+        <p>Your progress saves as you go, so you can stop after any phase and pick up right where you left off.</p>
       </header>
       <div className="ax-bento">
-        {steps.map(({n,title,line,Icon},i)=><Link key={n} href={'/install?stage='+(i+1)} className="ax-tile">
+        {steps.map(({n,title,line,href,Icon})=><Link key={n} href={href} className="ax-tile">
           <Icon size={30} aria-hidden="true"/>
-          <span className="ax-step">Step {n}</span>
+          <span className="ax-step">Phase {n}</span>
           <h3>{title}</h3>
           <p>{line}</p>
-          <span className="ax-tile-link">View step<ChevronRight size={16}/></span>
+          <span className="ax-tile-link">Open<ChevronRight size={16}/></span>
         </Link>)}
       </div>
     </section>
