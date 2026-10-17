@@ -7,6 +7,29 @@ A responsive phone-installation guide walking a driver through **Position → Se
 
 Hosted free on GitHub Pages. Every push to `main` rebuilds and republishes the site automatically — see [How the site is published](#how-the-site-is-published).
 
+## Design: Apple principles × Lyft theme
+
+The interface follows Apple's Human Interface principles, styled in Lyft's brand palette, without changing any guide behaviour.
+
+| Before | After |
+| --- | --- |
+| ![Before: original purple theme](docs/screenshots/before-home.jpg) | ![After: Apple principles with Lyft pink](docs/screenshots/after-home.jpg) |
+
+![Mobile: sticky bottom toolbar, pending-approval chips, segmented controls](docs/screenshots/after-mobile.jpg)
+
+| Principle | How it shows up |
+| --- | --- |
+| Clarity and hierarchy | System type (SF on Apple devices, self-hosted Inter elsewhere) with size-specific tracking; one bold message per section |
+| Deference | Translucent sticky header so content stays primary; depth from soft shadows instead of outlines |
+| Direct, instant feedback | Buttons and cards respond on press; segmented controls for step pickers and tabs |
+| Wayfinding | Bottom toolbar on phones keeps the next action in reach; progress stays visible |
+| Honesty | Unapproved operational details render as dashed **pending** chips, never as invented values |
+| Brand | Lyft pink (`#FF00BF`) for actions and highlights on near-black ink; accessible pink shades for text |
+| Accessibility | WCAG AA contrast on every text pair; honours reduced motion, reduced transparency, increased contrast and forced colours |
+| Privacy | No third-party requests: fonts are bundled with the site |
+
+Theme lives in [`app/apple-lyft.css`](app/apple-lyft.css), loaded after the base styles.
+
 ## Tech stack
 
 React 19, TypeScript, [Vinext](https://www.npmjs.com/package/vinext) (Next.js App Router conventions on top of Vite), Tailwind CSS 4, Radix/Shadcn UI, and Zod. The app builds to a **Cloudflare Worker**, not static HTML — see [Why GitHub Pages won't work](#why-github-pages-wont-work).
@@ -53,7 +76,7 @@ npm start
 - Installation flow: `components/gtview/install.tsx`
 - Interactive mount demo: `components/gtview/mount-lab.tsx`
 - Copy, FAQs, placeholders: `lib/gtview/content.ts`
-- Colors/layout: `app/globals.css` and `app/phone-guide.css`
+- Colors/layout: `app/apple-lyft.css` (theme layer), `app/globals.css` and `app/phone-guide.css`
 - Page title/description: `app/layout.tsx`
 
 ## Validate

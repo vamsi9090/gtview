@@ -10,8 +10,8 @@
 
 /* ---------- Tokens ---------- */
 :root{
-  --font-text:-apple-system,BlinkMacSystemFont,"SF Pro Text","Inter",system-ui,"Segoe UI",Roboto,sans-serif;
-  --font-display:-apple-system,BlinkMacSystemFont,"SF Pro Display","Inter",system-ui,"Segoe UI",Roboto,sans-serif;
+  --font-text:-apple-system,BlinkMacSystemFont,"SF Pro Text","Inter Variable","Inter",system-ui,"Segoe UI",Roboto,sans-serif;
+  --font-display:-apple-system,BlinkMacSystemFont,"SF Pro Display","Inter Variable","Inter",system-ui,"Segoe UI",Roboto,sans-serif;
 
   /* Lyft brand */
   --lyft-pink:#ff00bf;          /* decorative: icons, rings, progress, highlights */
@@ -280,6 +280,38 @@ h1[tabindex="-1"]:focus,h1[tabindex="-1"]:focus-visible{outline:none!important}
 .footer-disclaimer{color:var(--apple-tertiary)!important}
 .phone-start+.site-footer,main+.site-footer{margin-top:0}
 .guided-main+.site-footer,.standard-main+.site-footer{margin-top:72px}
+
+/* ---------- Pending-approval chips (unapproved operational details) ---------- */
+.pending{display:inline;padding:.05em .5em;margin:0 .08em;border-radius:6px;border:1px dashed #b0b0b6;background:#f5f5f7;
+  color:#48484a;font-size:.92em;font-weight:500;letter-spacing:-.005em;white-space:normal;-webkit-box-decoration-break:clone;box-decoration-break:clone;cursor:help}
+.notice .pending{background:rgba(255,255,255,.6)}
+.phone-start .pending,.lab-feedback .pending{background:transparent}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+
+/* ---------- Header divider appears only once content scrolls beneath it ---------- */
+@supports (animation-timeline:scroll()){
+  .site-header,.home-site .site-header{border-bottom-color:transparent;animation:gt-header-edge linear both;animation-timeline:scroll(root);animation-range:0 24px}
+}
+@keyframes gt-header-edge{to{border-bottom-color:rgba(0,0,0,.08);box-shadow:0 1px 12px rgba(0,0,0,.04)}}
+
+/* ---------- Mount demo: anchor feedback to the top of the preview ---------- */
+.lab-grid{align-items:start}
+.lab-feedback{margin-top:0}
+
+/* ---------- Mobile: Apple-style bottom toolbar keeps the next action in reach ---------- */
+@media (max-width:680px){
+  .action-area,.phone-actions{position:sticky;bottom:0;z-index:20;margin-left:-5.5%;margin-right:-5.5%;padding:12px 5.5% calc(12px + env(safe-area-inset-bottom,0px));
+    background:rgba(245,245,247,.82);-webkit-backdrop-filter:saturate(180%) blur(20px);backdrop-filter:saturate(180%) blur(20px);
+    border-top:1px solid var(--apple-hairline)}
+  .action-area .bottom-actions{margin:0;padding:0;border:0}
+  .action-area .gate-reason{margin:0 0 10px}
+  .phone-actions{margin-top:24px}
+  .phone-actions .btn{margin-top:8px}
+  .phone-save-note{display:none}
+}
+@media (max-width:680px) and (prefers-reduced-transparency:reduce){
+  .action-area,.phone-actions{background:var(--apple-bg);-webkit-backdrop-filter:none;backdrop-filter:none}
+}
 
 /* ---------- Scroll-linked reveal (progressive enhancement, no JS) ---------- */
 @media (prefers-reduced-motion:no-preference){
