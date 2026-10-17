@@ -1,8 +1,8 @@
 name: Deploy to GitHub Pages
 
 # Publishes two versions side by side:
-#   /gtview/      -> the original site (main)
-#   /gtview/new/  -> the Apple x Lyft redesign (apple-lyft-redesign branch)
+#   /gtview/      -> the original design, preserved on the `classic` branch
+#   /gtview/new/  -> the current Apple x Lyft design on `main`
 on:
   push:
     branches: [main]
@@ -22,15 +22,15 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Check out original (main)
+      - name: Check out original design (classic)
+        uses: actions/checkout@v4
+        with:
+          ref: classic
+          path: original
+      - name: Check out current design (main)
         uses: actions/checkout@v4
         with:
           ref: main
-          path: original
-      - name: Check out redesign
-        uses: actions/checkout@v4
-        with:
-          ref: apple-lyft-redesign
           path: redesign
       - uses: actions/setup-node@v4
         with:
@@ -46,7 +46,7 @@ jobs:
           npm ci
           npm run build:pages
 
-      - name: Build redesign at /gtview/new
+      - name: Build current design at /gtview/new
         working-directory: redesign
         env:
           GH_PAGES_BASE_PATH: /gtview/new
