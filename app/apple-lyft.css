@@ -313,6 +313,79 @@ h1[tabindex="-1"]:focus,h1[tabindex="-1"]:focus-visible{outline:none!important}
   .action-area,.phone-actions{background:var(--apple-bg);-webkit-backdrop-filter:none;backdrop-filter:none}
 }
 
+/* ---------- Home: apple.com-style storytelling ---------- */
+.ax-home{background:var(--apple-bg);color:var(--apple-label);overflow-x:clip}
+.ax-kicker{margin:0;font-size:clamp(1.0625rem,1.5vw,1.3125rem);font-weight:600;letter-spacing:-.016em;color:var(--lyft-pink-text)}
+.ax-hero{max-width:1320px;margin:0 auto;padding:clamp(56px,8vw,112px) 4.5% 0;text-align:center}
+.ax-hero h1{margin:14px auto 0;font-size:clamp(3rem,8.2vw,6.5rem);line-height:1.02;letter-spacing:-.05em;font-weight:700;text-wrap:balance}
+.ax-hero h1 em{font-style:normal;background:linear-gradient(100deg,var(--lyft-pink) 10%,#c8008f 80%);-webkit-background-clip:text;background-clip:text;color:transparent;padding-right:.04em}
+.ax-lede{margin:22px auto 0;max-width:30ch;font-size:clamp(1.1875rem,2vw,1.5rem);line-height:1.38;letter-spacing:-.02em;color:var(--apple-secondary);text-wrap:balance}
+.ax-ctas{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:14px 30px;margin-top:34px}
+.ax-link{display:inline-flex;align-items:center;gap:2px;min-height:48px;font-size:1.0625rem;font-weight:500;letter-spacing:-.02em;color:var(--lyft-pink-text)}
+.ax-link svg{transition:transform .25s var(--ease-out)}
+.ax-link:hover{text-decoration:underline;text-underline-offset:4px}
+.ax-link:hover svg{transform:translateX(3px)}
+.ax-hero-art{margin:clamp(40px,6vw,72px) auto 0;max-width:1200px;border-radius:clamp(24px,3vw,40px);overflow:hidden;background:#dfe6ec;box-shadow:var(--shadow-raised);aspect-ratio:3/2}
+.ax-hero-art img{width:100%;height:100%;object-fit:cover}
+.ax-note{display:inline-flex;align-items:center;gap:8px;margin:22px auto 0;font-size:.875rem;color:var(--apple-secondary);letter-spacing:-.01em}
+.ax-note svg{color:var(--lyft-pink-text)}
+
+.ax-section{max-width:1320px;margin:0 auto;padding:clamp(80px,11vw,152px) 4.5% 0}
+.ax-head{max-width:780px;margin:0 auto clamp(36px,5vw,64px);text-align:center}
+.ax-head h2{margin:12px 0 0;font-size:clamp(2.25rem,5.6vw,4rem);line-height:1.05;letter-spacing:-.045em;text-wrap:balance}
+.ax-head p:not(.ax-kicker){margin:18px auto 0;max-width:46ch;font-size:clamp(1.0625rem,1.6vw,1.3125rem);line-height:1.45;color:var(--apple-secondary)}
+
+.ax-bento{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}
+.ax-tile{position:relative;display:flex;flex-direction:column;overflow:hidden;border-radius:32px;background:#fff;box-shadow:var(--shadow-card);
+  transition:transform .4s var(--ease-spring),box-shadow .4s var(--ease-spring)}
+.ax-tile:hover{transform:translateY(-4px);box-shadow:var(--shadow-raised)}
+.ax-tile:active{transform:scale(.985);transition-duration:.12s}
+.ax-tile-copy{padding:clamp(28px,3vw,40px) clamp(28px,3vw,44px) 22px}
+.ax-step{font-size:.875rem;font-weight:600;color:var(--lyft-pink-text);font-variant-numeric:tabular-nums}
+.ax-tile h3{margin:8px 0 0;font-size:clamp(1.75rem,3vw,2.5rem);letter-spacing:-.04em;line-height:1.08;font-weight:700}
+.ax-tile p{margin:10px 0 0;font-size:1.0625rem;line-height:1.45;color:var(--apple-secondary);max-width:30ch}
+.ax-tile-link{display:inline-flex;align-items:center;gap:2px;margin-top:14px;font-size:1rem;font-weight:500;color:var(--lyft-pink-text)}
+.ax-tile-link svg{transition:transform .25s var(--ease-out)}
+.ax-tile:hover .ax-tile-link svg{transform:translateX(3px)}
+.ax-tile img{display:block;width:100%;height:auto;aspect-ratio:3/2;object-fit:cover;margin-top:auto;transition:transform 1s var(--ease-out)}
+.ax-tile:hover img{transform:scale(1.025)}
+
+.ax-lab{padding-top:clamp(64px,9vw,120px)}
+.ax-promises{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
+.ax-promises article{padding:clamp(28px,3vw,40px);border-radius:28px;background:#fff;box-shadow:var(--shadow-card)}
+.ax-promises svg{color:var(--lyft-pink)}
+.ax-promises h3{margin:18px 0 0;font-size:1.3125rem;letter-spacing:-.025em}
+.ax-promises p{margin:8px 0 0;font-size:1rem;line-height:1.5;color:var(--apple-secondary)}
+.ax-close{margin-top:clamp(80px,11vw,152px)}
+
+@media (max-width:900px){
+  .ax-bento,.ax-promises{grid-template-columns:1fr}
+}
+@media (max-width:680px){
+  .ax-hero{padding:44px 22px 0}
+  .ax-ctas{flex-direction:column;gap:6px}
+  .ax-ctas .btn{width:100%}
+  .ax-section{padding:72px 16px 0}
+  .ax-tile{border-radius:24px}
+  .ax-promises article{border-radius:22px}
+}
+@media (prefers-reduced-motion:no-preference){
+  .ax-hero>*{animation:gt-fade-up .9s var(--ease-out) both}
+  .ax-hero>*:nth-child(2){animation-delay:60ms}
+  .ax-hero>*:nth-child(3){animation-delay:120ms}
+  .ax-hero>*:nth-child(4){animation-delay:180ms}
+  .ax-hero>.ax-hero-art{animation:gt-fade-scale 1.2s var(--ease-out) .22s both}
+  @supports (animation-timeline:view()){
+    .ax-head,.ax-tile,.ax-promises article,.ax-lab .mount-lab{animation:gt-rise linear both;animation-timeline:view();animation-range:entry 5% entry 85%}
+  }
+}
+@media (prefers-reduced-motion:reduce){
+  .ax-tile:hover,.ax-tile:hover img{transform:none}
+}
+@media (prefers-contrast:more){
+  .ax-tile,.ax-promises article,.ax-hero-art{box-shadow:0 0 0 1px #8e8e93}
+}
+
 /* ---------- Scroll-linked reveal (progressive enhancement, no JS) ---------- */
 @media (prefers-reduced-motion:no-preference){
   @supports (animation-timeline:view()){
@@ -376,3 +449,9 @@ h1[tabindex="-1"]:focus,h1[tabindex="-1"]:focus-visible{outline:none!important}
 @media (forced-colors:active){
   .btn,.phone-overview-grid>a,.white-card{border:1px solid CanvasText}
 }
+
+/* Closing call to action: centred like every other home section */
+.ax-close{flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:28px}
+.ax-close>div:last-child{justify-items:center}
+.ax-close p:not(.eyebrow){margin-left:auto;margin-right:auto}
+.ax-close:before{inset:-55% auto auto 50%;translate:-50% 0;width:70%}

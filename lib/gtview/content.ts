@@ -23,7 +23,7 @@ export const safetyChecks=[
 ];
 export const inventory=[
 {id:'device',name:'GTview phone',detail:'The supplied phone uses its rear camera to face the road.',why:'Captures the street view described by the program.',quantity:'[Approved quantity]'},
-{id:'mount',name:'Phone holder',detail:'The supplied holder secures the phone on the approved dashboard position.',why:'Secures the camera in its approved position.',quantity:'[Approved quantity]'},
+{id:'mount',name:'Windshield mount',detail:'The supplied suction-cup mount holds the phone at the approved windshield position.',why:'Secures the camera in its approved position.',quantity:'[Approved quantity]'},
 {id:'attachment',name:'Attachment hardware',detail:'The supplied pad or fastening parts.',why:'Attaches the mount using the approved method.',quantity:'[Approved quantity]'},
 {id:'cable',name:'Power cable',detail:'The cable specified for your device.',why:'Connects to the approved power source.',quantity:'[Approved quantity]'},
 {id:'clips',name:'Cable clips',detail:'The supplied cable-retention parts.',why:'Keeps the approved cable route tidy and secure.',quantity:'[Approved quantity]'},
