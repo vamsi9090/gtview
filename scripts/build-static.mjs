@@ -16,7 +16,7 @@ import { fileURLToPath } from "node:url";
 
 const ROOT = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
 const OUT_DIR = path.join(ROOT, "gh-pages-dist");
-const BASE_PATH = "/gtview";
+const BASE_PATH = process.env.GH_PAGES_BASE_PATH || "/gtview";
 const PORT = 3000;
 const SERVER_ORIGIN = `http://127.0.0.1:${PORT}`;
 
